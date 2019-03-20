@@ -1,0 +1,78 @@
+.tchart-minimap {
+  height: 4em;
+  position: relative;
+  padding: 0.28em 0;
+  margin-bottom: 1.5em;
+}
+
+.tchart-minimap path {
+  transition: transform .1s, opacity .2s;
+}
+
+.tchart-minimap svg{
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform: scale(1, -1);
+  pointer-events: none;
+}
+
+.tchart-minimap-eye {
+  border-top: 0.07em solid #dceaf5;
+  border-bottom: 0.07em solid #dceaf5;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.tchart-minimap-eye:before,
+.tchart-minimap-eye:after {
+  content: "";
+  position: absolute;
+  left: -100vw;
+  width: 100vw;
+  top: -0.07em;
+  bottom: -0.07em;
+  background-color: #eff3f6;
+  opacity: 0.6;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.tchart-minimap-eye:after {
+  right: -100vw;
+  left: auto;
+}
+
+.tchart-minimap-border-left {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 0.5em;
+  background-color: #dceaf5;
+}
+
+.tchart-minimap-border-left:before,
+.tchart-minimap-border-right:after {
+  content: "";
+  width: 0.5em;
+  margin-left: -100%;
+  height: 100%;
+  display: inline-block;
+}
+
+.tchart-minimap-border-right:after {
+  margin-left: 100%;
+}
+
+.tchart-minimap-border-right {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 0.5em;
+  background-color: #dceaf5;
+}

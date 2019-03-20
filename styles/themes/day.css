@@ -1,0 +1,54 @@
+.theme-day {
+  background-color: #ffffff;
+}
+
+.theme-day .tchart-container {
+  color: #aaaeb1;
+}
+
+.theme-day .tchart-header {
+  color: #000000;
+}
+
+.theme-day .tchart-graph-line {
+  border-color: #f5f5f5;
+}
+
+.theme-day .tchart-minimap-eye {
+  border-color: #dceaf5;
+}
+
+.theme-day .tchart-minimap-eye:before,
+.theme-day .tchart-minimap-eye:after {
+  background-color: #eff3f6;
+}
+
+.theme-day .tchart-minimap-border-right,
+.theme-day .tchart-minimap-border-left {
+  background-color: #dceaf5;
+}
+
+.theme-day .tchart-tooltip {
+  background-color: #ffffff;
+  border-color: #f5f5f5;
+}
+
+.theme-day .tchart-tooltip-date {
+  color: #000000;
+}
+
+.theme-day .tchart-show-graph {
+  border-color: #f5f5f5;
+}
+
+.theme-day .tchart-show-graph-icon-circle {
+  fill: #ffffff;
+}
+
+.theme-day .tchart-graph-mark {
+  fill: #ffffff;
+}
+
+.theme-day .tchart-xmark {
+  stroke: #f5f5f5;
+}

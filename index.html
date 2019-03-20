@@ -1,1 +1,54 @@
-<html><body>TEST</body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Chart</title>
+  <script src="scripts/utils.js"></script>
+  <script src="scripts/classes/TEventTarget.js"></script>
+  <script src="scripts/classes/DragDrop.js"></script>
+  <script src="scripts/classes/TComponent.js"></script>
+  <script src="scripts/classes/TChart.js"></script>
+  <script src="scripts/classes/TGraph.js"></script>
+  <script src="scripts/classes/TChartMinimap.js"></script>
+  <script src="scripts/classes/TChartTooltip.js"></script>
+  <script src="chart_data.js"></script>
+
+  <link rel="stylesheet" href="styles/main.css"/>
+  <link rel="stylesheet" href="styles/tchart.css"/>
+  <link rel="stylesheet" href="styles/themes/day.css"/>
+  <link rel="stylesheet" href="styles/themes/night.css"/>
+  <link rel="stylesheet" href="styles/tchart-dates.css"/>
+  <link rel="stylesheet" href="styles/tchart-graph-lines.css"/>
+  <link rel="stylesheet" href="styles/tchart-minimap.css"/>
+  <link rel="stylesheet" href="styles/tchart-toolbar.css"/>
+  <link rel="stylesheet" href="styles/tchart-tooltip.css"/>
+</head>
+<body class="theme-night">
+<div id="app" style="max-width: 90vw; margin: auto;"></div>
+<script>
+
+  (function () {
+    const charts = [];
+    try {
+      const appEl = document.getElementById('app');
+      for (let i = 0; i < CHART_DATA.length; i++) {
+        const chartData = CHART_DATA[i];
+        const chart = new TChart(chartData);
+        chart.render(appEl);
+        chart.draw(chartData);
+        chart.addEventListener('theme', (ev) => {
+          charts.forEach(ch => ch.applyTheme(ev.theme));
+        });
+        charts.push(chart);
+      }
+
+    } catch (err) {
+      alert(JSON.stringify(err.message));
+      alert(err.stack);
+    }
+  })();
+
+</script>
+
+</body>
+</html>
