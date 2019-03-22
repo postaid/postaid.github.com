@@ -10,10 +10,10 @@ class TGraph extends TComponent {
     this.max = Math.max.apply(null, values);
     this.visible_ = true;
     this.mark_ = null;
-    this.ratio_ = 1;
     this.scale_ = [1, 1];
+    this.translate_ = [0, 0];
+    this.index_ = -1;
     this.markContainer_ = null;
-    this.markRadius_ = 8;
   }
 
   renderTemplate (container, template) {
@@ -39,11 +39,9 @@ class TGraph extends TComponent {
   }
 
   setTransform (translateX, translateY, scaleX, scaleY) {
+    this.translate_ = [translateX, translateY];
     this.scale_ = [scaleX, scaleY];
-    this.element_.style.transform = `matrix(1, 0, 0, ${scaleY}, ${translateX}, ${translateY * scaleY})`;
-    if (this.mark_) {
-      this.mark_.style.transform = `scale(${1/scaleX * this.ratio_}, ${1/scaleY})`;
-    }
+    this.element_.style.transform = `matrix(1, 0, 0, ${scaleY}, 0, 0)`;
   }
 
   clone () {
@@ -62,22 +60,28 @@ class TGraph extends TComponent {
     return this.visible_;
   }
 
-  drawMarkAt (x, y) {
+  createMark (index) {
     if (!this.mark_) {
       this.mark_ = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      this.disableMarkTransition();
       this.mark_.setAttribute('class', 'tchart-graph-mark');
       this.mark_.setAttribute('stroke', this.color);
-      this.mark_.setAttribute('r', '0.07em');
-      this.mark_.style.transition = 'none';
-      setTimeout(() => (this.mark_ && (this.mark_.style.transition = '')),300);
       this.markContainer_.appendChild(this.mark_);
-      this.markRadius_ = parseFloat(window.getComputedStyle(this.mark_).borderTopLeftRadius);
+      this.mark_.style.transformOrigin = '0px 0px';
+      this.mark_.setAttribute('r', '0.3em');
+      this.enableMarkTransition();
     }
-    this.mark_.setAttribute('cx', x);
-    this.mark_.setAttribute('cy', y);
-    this.mark_.style.transformOrigin = `${x}px ${y}px`;
-    this.mark_.style.transform = `scale(${1/this.scale_[0] * this.ratio_}, ${1/this.scale_[1]})`;
-    this.mark_.setAttribute('r', this.markRadius_ / this.element_.viewportElement.clientHeight * 100);
+    this.index_ = index;
+    if (!this.isVisible()) {
+      this.showMark(false);
+    }
+  }
+
+  updateMark (maxY) {
+    if (this.mark_) {
+      const y = this.values[this.index_] / maxY * 100;
+      this.mark_.style.transform = `translate(0%, ${y}%)`;
+    }
   }
 
   removeMark () {
@@ -93,20 +97,22 @@ class TGraph extends TComponent {
     }
   }
 
-  getMark () {
-    return this.mark_ || null;
+  setMarkContainer (element) {
+    this.markContainer_ = element;
   }
 
-  setAspectRatio (ratio) {
-    this.ratio_ = ratio;
+  disableMarkTransition () {
     if (this.mark_) {
-      this.mark_.style.transform = `scale(${1/this.scale_[0] * this.ratio_}, ${1/this.scale_[1]})`;
-      this.mark_.setAttribute('r', this.markRadius_ / this.element_.viewportElement.clientHeight * 100);
+      this.mark_.style.transition = 'none';
     }
   }
 
-  setMarkContainer (element) {
-    this.markContainer_ = element;
+  enableMarkTransition () {
+    setTimeout(() => (this.mark_ && (this.mark_.style.transition = '')), 300);
+  }
+
+  getIndex () {
+    return this.index_;
   }
 }
 TGraph.TEMPLATE = '';

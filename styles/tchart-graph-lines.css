@@ -4,16 +4,16 @@
   width: 100%;
   bottom: 0;
   pointer-events: none;
-  transition: height .3s;
+  transition: height .1s;
 }
 
 .tchart-graph-line {
   position: absolute;
-  width: 100%;
   left: 0;
   right: 0;
+  opacity: 0;
   vertical-align: middle;
   border-bottom: 0.14em solid #f5f5f5;
   padding-bottom: 0.28em;
-  transition: opacity .3s;
+  transition: opacity .1s;
 }

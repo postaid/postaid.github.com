@@ -13,6 +13,7 @@
   padding-right: 1.5em;
   align-items: center;
   user-select: none;
+  cursor: pointer;
 }
 
 .tchart-show-graph input {
@@ -44,18 +45,18 @@
 
 .tchart-show-graph-icon-mark {
   stroke: #ffffff;
-  stroke-width: 0.14em;
+  stroke-width: 0.21em;
   vector-effect: non-scaling-stroke;
   fill: transparent;
-  transform: translate(40px, 3px) rotate(-45deg) scale(1,1);
+  transform: translate(40px, 3px) rotate(-45deg) scale(0.9);
   transform-origin: 50% 50%;
   transition: all .2s;
 }
 
 .tchart-show-graph input:checked + .tchart-show-graph-icon .tchart-show-graph-icon-mark {
-  transform: scale(1, 1) translate(40px, 3px) rotate(-45deg);
+  transform: scale(0.9) translate(40px, 3px) rotate(-45deg);
 }
 
 .tchart-show-graph input + .tchart-show-graph-icon .tchart-show-graph-icon-mark {
-  transform: scale(0.001, 0.001) translate(40px, 3px) rotate(-45deg);
+  transform: scale(0.001) translate(40px, 3px) rotate(-45deg);
 }

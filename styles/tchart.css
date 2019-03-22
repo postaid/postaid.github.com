@@ -9,6 +9,7 @@
   height: 100vh;
   display: flex;
   flex-direction: column;
+  margin-bottom: 5em;
 }
 
 .tchart-header {
@@ -30,7 +31,14 @@
   width: 100%;
   height: 100%;
   transform: scale(1, -1);
-  transition: width .1s, transform .1s;
+}
+
+.tchart-svg-marks {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transform: scale(1, -1);
+  pointer-events: none;
 }
 
 .tchart-svg-path {
@@ -38,11 +46,10 @@
 }
 
 .tchart-svg path {
-  transition: transform .3s, opacity .2s;
+  transition: transform .1s, opacity .2s;
 }
 
 .tchart-svg-mark {
-  transition: transform .1s;
 }
 
 .tchart-svg-mark circle{
@@ -50,7 +57,6 @@
 }
 
 .tchart-graph-mark {
-  border-radius: 0.32em;
   fill: #ffffff;
   stroke-width: 0.14em;
   vector-effect: non-scaling-stroke;
@@ -62,6 +68,7 @@
   stroke-width: 0.14em;
   vector-effect: non-scaling-stroke;
   transition: opacity .1s, transform .1s;
+  opacity: 0;
 }
 
 .tchart-theme-switcher {

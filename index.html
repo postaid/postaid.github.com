@@ -33,7 +33,7 @@
       const appEl = document.getElementById('app');
       for (let i = 0; i < CHART_DATA.length; i++) {
         const chartData = CHART_DATA[i];
-        const chart = new TChart(chartData);
+        const chart = new TChart('Chart #' + (i + 1));
         chart.render(appEl);
         chart.draw(chartData);
         chart.addEventListener('theme', (ev) => {

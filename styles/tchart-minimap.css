@@ -76,3 +76,7 @@
   width: 0.5em;
   background-color: #dceaf5;
 }
+
+.tchart-minimap__dragging * {
+  cursor: w-resize !important;
+}
