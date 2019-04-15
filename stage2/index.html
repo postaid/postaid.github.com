@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>Chart</title>
+  <script src="scripts/utils.js"></script>
+  <script src="scripts/classes/TEventTarget.js"></script>
+  <script src="scripts/classes/DragDrop.js"></script>
+  <script src="scripts/classes/TComponent.js"></script>
+  <script src="scripts/classes/TGraph.js"></script>
+  <script src="scripts/classes/stacked/TGraphBar.js"></script>
+  <script src="scripts/classes/TChart.js"></script>
+  <script src="scripts/classes/TChartMinimap.js"></script>
+  <script src="scripts/classes/TChartTooltip.js"></script>
+  <script src="scripts/classes/TGraphButton.js"></script>
+  <script src="scripts/classes/scaledy/TChartScaledY.js"></script>
+  <script src="scripts/classes/scaledy/TChartMinimapScaledY.js"></script>
+  <script src="scripts/classes/stacked/TChartStacked.js"></script>
+
+  <link rel="stylesheet" href="styles/main.css"/>
+  <link rel="stylesheet" href="styles/tchart.css"/>
+  <link rel="stylesheet" href="styles/themes/day.css"/>
+  <link rel="stylesheet" href="styles/themes/night.css"/>
+  <link rel="stylesheet" href="styles/tchart-graph-lines.css"/>
+  <link rel="stylesheet" href="styles/tchart-minimap.css"/>
+  <link rel="stylesheet" href="styles/tchart-toolbar.css"/>
+  <link rel="stylesheet" href="styles/tchart-tooltip.css"/>
+</head>
+<body class="theme-day">
+<div id="app"></div>
+<div class="tchart-theme-switcher">
+  <button id="themeSwitcher" class="theme-switcher">Switch to Night Mode</button>
+</div>
+<div id="loader"></div>
+<script>
+  (function () {
+    const charts = [];
+    const styles = [
+      [
+        {
+          graph: ['#FE3C30', '#4BD964'],
+          button: ['#E65850', '#5FB641'],
+          tooltip: ['#F34C44', '#3CC23F'],
+        },
+        {
+          graph: ['#E6574F', '#4BD964'],
+          button: ['#CF5D57', '#5AB34D'],
+          tooltip: ['#F7655E', '#4BD964'],
+        }
+      ],
+      [
+        {
+          graph: ['#108BE3', '#E8AF14'],
+          button: ['#3497ED', '#F5BD25'],
+          tooltip: ['#108BE3', '#E4AE1B'],
+        },
+        {
+          graph: ['#108BE3', '#DEB93F'],
+          button: ['#4681BB', '#C9AF4F'],
+          tooltip: ['#108BE3', '#DEB93F'],
+        }
+      ],
+      [
+        {
+          graph: ['#3497ED', '#2373DB', '#9ED448', '#5FB641', '#F5BD25', '#F79E39', '#E65850'],
+          button: ['#3497ED', '#3381E8', '#9ED448', '#5FB641', '#F5BD25', '#F79E39', '#E65850'],
+          tooltip: ['#108BE3', '#2373DB', '#89C32E', '#4BAB29', '#EAAF10', '#F58608', '#F34C44'],
+          xAxisText: 'rgba(37, 37, 41, 0.5)',
+          yAxisText: 'rgba(37, 37, 41, 0.5)',
+          overlay: 'rgba(255, 255, 255, 0.5)'
+        },
+        {
+          graph: ['#4681BB', '#345B9C', '#88BA52', '#3DA05A', '#D9B856', '#D49548', '#CF5D57'],
+          button: ['#4681BB', '#466FB3', '#88BA52', '#3DA05A', '#F5BD25', '#D49548', '#CF5D57'],
+          tooltip: ['#5199DF', '#3E65CF', '#99CF60', '#3CB560', '#DBB630', '#EE9D39', '#F7655E'],
+          xAxisText: 'rgba(163, 177, 194, 0.5)',
+          yAxisText: 'rgba(236, 242, 248, 0.5)',
+          overlay: 'rgba(36, 47, 62, 0.5)'
+        }
+      ],
+      [
+        {
+          graph: ['#55BFE6'],
+          button: ['#35AADC'],
+          tooltip: ['#269ED4'],
+          xAxisText: 'rgba(37, 37, 41, 0.5)',
+          yAxisText: 'rgba(37, 37, 41, 0.5)',
+          overlay: 'rgba(255, 255, 255, 0.5)'
+        },
+        {
+          graph: ['#479FC4'],
+          button: ['#479FC4'],
+          tooltip: ['#43ADDE'],
+          xAxisText: 'rgba(163, 177, 194, 0.5)',
+          yAxisText: 'rgba(236, 242, 248, 0.5)',
+          overlay: 'rgba(36, 47, 62, 0.5)'
+        }
+      ],
+      [
+        {
+          graph: ['#3497ED', '#2373DB', '#9ED448', '#5FB641', '#F5BD25', '#F79E39'],
+          button: ['#3497ED', '#3381E8', '#9ED448', '#5FB641', '#F5BD25', '#F79E39'],
+          tooltip: ['#108BE3', '#2373DB', '#89C32E', '#4BAB29', '#EAAF10', '#F58608'],
+          xAxisText: 'rgba(37, 37, 41, 0.5)',
+          yAxisText: 'rgba(37, 37, 41, 0.5)',
+          overlay: 'rgba(255, 255, 255, 0.5)',
+          headerPadding: '2em',
+        },
+        {
+          graph: ['#4681BB', '#345B9C', '#88BA52', '#3DA05A', '#D9B856', '#D49548'],
+          button: ['#4681BB', '#466FB3', '#88BA52', '#3DA05A', '#F5BD25', '#D49548'],
+          tooltip: ['#5199DF', '#3E65CF', '#99CF60', '#3CB560', '#DBB630', '#EE9D39'],
+          xAxisText: 'rgba(163, 177, 194, 0.5)',
+          yAxisText: 'rgba(236, 242, 248, 0.5)',
+          overlay: 'rgba(36, 47, 62, 0.5)',
+          headerPadding: '2em',
+        }
+      ],
+    ];
+    const names = ['Followers', 'Interactions', 'Messages', 'Views', 'Apps'];
+    const appEl = document.getElementById('app');
+    let  index = 1;
+    let theme = 0;
+    document.getElementById('themeSwitcher').addEventListener('click', switchTheme);
+
+    function createChart(chartData) {
+      let chart;
+      if (chartData.y_scaled) {
+        chart = new TChartScaledY(names[index - 1]);
+      } else if (chartData.stacked) {
+        chart = new TChartStacked(names[index - 1]);
+      } else {
+        chart = new TChart(names[index - 1]);
+      }
+      chart.percentage = chartData.percentage;
+      chart.minYVisible = index === 1 || index === 2;
+      chart.stacked = chartData.stacked;
+      chart.styles = styles[index - 1];
+      chart.render(appEl);
+      chart.draw(chartData);
+      chart.addEventListener('theme', (ev) => {
+        charts.forEach(ch => ch.applyTheme(ev.theme));
+        document.body.className = TChart.THEMES[ev.theme][0];
+      });
+      charts.push(chart);
+      if (index < 5) {
+        index++;
+        Utils.getJSON(index + '/overview.json', createChart);
+      } else {
+        setTimeout(function() {
+          document.body.removeChild(document.getElementById('loader'));
+        }, 200);
+      }
+    }
+
+    function switchTheme() {
+      let newTheme = theme + 1;
+      if (newTheme >= TChart.THEMES.length) {
+        newTheme = 0;
+      }
+      theme = newTheme;
+      let i = charts.length - 1;
+      function setTheme () {
+        charts[i].applyTheme(theme);
+        if (i > 0) {
+          i--;
+          setTimeout(setTheme, 100);
+        }
+      }
+      setTheme();
+
+      document.body.className = TChart.THEMES[theme][0];
+      document.getElementById('themeSwitcher').innerHTML = TChart.THEMES[theme][1];
+    }
+
+    Utils.getJSON(index + '/overview.json', createChart);
+  })();
+</script>
+
+</body>
+</html>

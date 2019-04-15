@@ -1,0 +1,69 @@
+.theme-night {
+  background-color: #232f3d;
+}
+
+.theme-night .tchart-container {
+  color: #4a5561;
+}
+
+.theme-night .tchart-header {
+  color: #f9ffff;
+}
+
+.theme-night .tchart-graph-line {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.theme-night .tchart-graph-lines {
+  color: rgba(163, 177, 194, 0.6);
+}
+
+.theme-night .tchart-minimap-eye {
+  border-color: #40566b;
+}
+
+.theme-night .tchart-minimap-left,
+.theme-night .tchart-minimap-right,
+.theme-night .tchart-minimap-left:after,
+.theme-night .tchart-minimap-right:before {
+  background-color: #304259;
+  opacity: 0.6;
+}
+
+.theme-night .tchart-minimap-eye:before,
+.theme-night .tchart-minimap-eye:after {
+  background-color: #19232f;
+}
+
+.theme-night .tchart-minimap-border-right,
+.theme-night .tchart-minimap-border-left {
+  background-color: #40566b;
+}
+
+.theme-night .tchart-tooltip {
+  background-color: #1C2533;
+  border: none;
+  box-shadow: none;
+}
+
+.theme-night .tchart-tooltip-date-container,
+.theme-night .tchart-tooltip-values-name {
+  color: #f9ffff;
+}
+
+.theme-night .tchart-show-graph {
+  border-color: #4a5561;
+  color: #dee7ec;
+}
+
+.theme-night .tchart-show-graph-icon-circle {
+  fill: #232f3d;
+}
+
+.theme-night .tchart-graph-mark {
+  fill: #232f3d;
+}
+
+.theme-night .tchart-xmark {
+  stroke: #4a5561;
+}

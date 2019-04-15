@@ -1,0 +1,58 @@
+* {
+  box-sizing: border-box;
+  transition-timing-function: linear !important;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  font-size: 14px;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+#app {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: start;
+}
+
+
+@media (min-width: 700px) {
+  .tchart-container {
+    width: 50% !important;
+  }
+}
+
+@media (min-width: 1000px) {
+  .tchart-container {
+    width: 33% !important;
+  }
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 1) {
+  body {
+    font-size: 14px;
+  }
+}
+@media only screen and (-webkit-min-device-pixel-ratio: 3) {
+  body {
+    font-size: 14px;
+  }
+}
+@media only screen and (orientation: landscape) {
+  body {
+    font-size: 14px;
+  }
+}
+
+#loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ffffff;
+}
