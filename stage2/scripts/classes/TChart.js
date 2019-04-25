@@ -158,8 +158,8 @@ class TChart extends TComponent {
     if (redraw) {
       const datesBorder = this.drawXValues_(time);
       if (datesBorder[0] !== this.prevMinDate_ || datesBorder[1] !== this.prevMaxDate_) {
-        this.datesRangeTo_.textContent = this.datesRangeFrom_.textContent;
-        this.datesRangeFrom_.textContent = this.dates2_[datesBorder[0]][3] + ' - ' + this.dates2_[datesBorder[1]][3];
+        this.datesRangeFrom_.textContent = this.datesRangeTo_.textContent;
+        this.datesRangeTo_.textContent = this.dates2_[datesBorder[0]][3] + ' - ' + this.dates2_[datesBorder[1]][3];
         if (this.animDatesRange_.v === 1) {
           this.animDatesRange_.reset(0);
           this.animDatesRange_.run(time, 1);
@@ -284,8 +284,9 @@ class TChart extends TComponent {
 
     let minDate = Infinity;
     let maxDate = -Infinity;
-    let minDateI = -1;
-    let maxDateI = -1;
+    // debugger;
+    let minDateI = leftIndex;
+    let maxDateI = rightIndex;
     let textW = 58 * this.pixelRatio_ / 2;
     this.datesLayers2_.forEach((layer, i) => {
       const opacity = (i >= visibleLayer) * 1;
@@ -307,6 +308,7 @@ class TChart extends TComponent {
           }
           if (needDraw) {
             this.ctx_.fillText(dateObj[1], l + dateOffset, top);
+/*
             if (minDate > dateObj[2]) {
               minDate = dateObj[2];
               minDateI = index;
@@ -315,6 +317,7 @@ class TChart extends TComponent {
               maxDate = dateObj[2];
               maxDateI = index;
             }
+*/
           }
         });
       }
@@ -367,7 +370,7 @@ class TChart extends TComponent {
     button.render(this.toolbar_);
     button.setColor((this.styles && this.styles[this.theme_].button[index]) || graph.color);
     button.addEventListener('change', this.handlerShowInputChange_.bind(this, graph, index));
-    button.addEventListener('longtap', this.handlerButtonLongTap_.bind(this));
+    button.addEventListener('longtap', this.handlerButtonLongTap_.bind(this, index));
     this.buttons_.push(button);
   }
 
@@ -400,6 +403,7 @@ class TChart extends TComponent {
   handlerMinimapInput_(ev) {
     const mm = this.minimap_.getPosition();
     this.needUpdateGraphScale_ = true;
+    this.needUpdateGraph_ = true;
     this.resetGraphXMark_ = true;
     if (this.tooltip_) {
       this.tooltip_.hide();
@@ -593,11 +597,17 @@ class TChart extends TComponent {
     }
   }
 
-  handlerButtonLongTap_() {
+  handlerButtonLongTap_(index) {
     this.yAxis.forEach((graph, i) => {
-      graph.show(true);
-      this.minimap_.showGraph(graph, true);
-      this.buttons_[i].input.checked = true;
+      if (i === index) {
+        graph.show(true);
+        this.minimap_.showGraph(graph, true);
+        this.buttons_[i].input.checked = true;
+      } else {
+        graph.show(false);
+        this.minimap_.showGraph(graph, false);
+        this.buttons_[i].input.checked = false;
+      }
     });
     const mm = this.minimap_.getPosition();
     this.updateGraphScale(mm.left, mm.width);

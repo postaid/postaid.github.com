@@ -86,7 +86,7 @@ class TChartTooltip extends TComponent {
         }
         const value = document.createElement('div');
         value.className = 'tchart-tooltip-values-value';
-        value.textContent = val;
+        value.textContent = this.splitDigits(val);
         value.style.color = colors[i] || graph.color;
         item.appendChild(name);
         item.appendChild(value);
@@ -149,6 +149,10 @@ class TChartTooltip extends TComponent {
     this.index_ = index;
   }
 
+  splitDigits (num) {
+    return String(num).replace(/(\d+?)(?=(\d{3})+(?!\d)|$)/g, '$1 ').slice(0, -1);
+  }
+
   draw(time) {
     if (this.anim.date.eval(time)) {
       this.applyAnimation(this.anim.date);
@@ -205,8 +209,8 @@ class TChartTooltip extends TComponent {
       element.appendChild(anim.from);
       element.appendChild(anim.to);
     }
-    anim.from.textContent = prevValue;
-    anim.to.textContent = curValue;
+    anim.from.textContent = this.splitDigits(prevValue);
+    anim.to.textContent = this.splitDigits(curValue);
     const maxW = anim.to.offsetWidth;
     anim.from.style.width = maxW + 'px';
   }

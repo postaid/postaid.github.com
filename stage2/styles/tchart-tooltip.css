@@ -33,10 +33,13 @@
 .tchart-tooltip-values-value span:nth-child(1) {
   display: inline-block;
   transition: width 0.2s;
+  white-space: nowrap;
 }
+
 .tchart-tooltip-values-value span:nth-child(2) {
   position: absolute;
   left: 0;
+  white-space: nowrap;
 }
 
 .tchart-tooltip-values-name {
